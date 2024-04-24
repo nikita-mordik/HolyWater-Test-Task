@@ -36,9 +36,14 @@ namespace HolyWater.MykytaTask.Infrastructure.StateMachine.States
             persistentProgressService.SessionProgress = saveLoadService.LoadProgress() ?? NewProgress();
         }
 
-        private SessionProgress NewProgress()
+        private static SessionProgress NewProgress()
         {
-            var progress = new SessionProgress();
+            var progress = new SessionProgress
+            {
+                LeftWeatherCard = new LeftWeatherCard(),
+                VolumeData = new VolumeData(1f, 1f),
+                FirstOrAfterResetSession = true
+            };
             return progress;
         }
     }

@@ -7,6 +7,6 @@ namespace HolyWater.MykytaTask.Infrastructure.SceneLoader
     {
         bool IsSceneLoaded(string sceneName);
         UniTask LoadScene(string sceneName, Action onSceneLoad = null);
-        UniTask LoadSceneWithProgress(string sceneName, object fillAmount, Action onSceneLoad = null);
+        UniTask LoadSceneWithProgress(string sceneName, Action onSceneLoad = null);
     }
 }

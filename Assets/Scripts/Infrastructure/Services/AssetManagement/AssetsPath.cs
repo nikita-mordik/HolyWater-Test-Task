@@ -1,21 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace HolyWater.MykytaTask
+namespace HolyWater.MykytaTask.Infrastructure.Services.AssetManagement
 {
-    public class AssetsPath : MonoBehaviour
+    public static class AssetsPath
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        public const string AllWeatherData = "Weather";
+        public const string WeatherCard = "WeatherCard";
     }
 }

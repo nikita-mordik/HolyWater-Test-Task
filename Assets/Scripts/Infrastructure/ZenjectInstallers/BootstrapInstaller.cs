@@ -1,6 +1,9 @@
 using HolyWater.MykytaTask.Infrastructure.SceneLoader;
 using HolyWater.MykytaTask.Infrastructure.Services.AssetManagement;
 using HolyWater.MykytaTask.Infrastructure.Services.Factory;
+using HolyWater.MykytaTask.Infrastructure.Services.Progress;
+using HolyWater.MykytaTask.Infrastructure.Services.ProgressBar;
+using HolyWater.MykytaTask.Infrastructure.Services.SaveLoad;
 using HolyWater.MykytaTask.Infrastructure.Services.WeatherAPI;
 using HolyWater.MykytaTask.Infrastructure.StateMachine;
 using Zenject;
@@ -16,6 +19,9 @@ namespace HolyWater.MykytaTask.Infrastructure.ZenjectInstallers
             BindAssetsProvider();
             BindGameFactory();
             BindWeatherService();
+            BindProgressBarService();
+            BindPersistentProgressService();
+            BindSaveLoadService();
         }
         
         private void BindGameStateMachine()
@@ -51,6 +57,27 @@ namespace HolyWater.MykytaTask.Infrastructure.ZenjectInstallers
         {
             Container.Bind<IWeatherService>()
                 .To<WeatherService>()
+                .AsSingle();
+        }
+
+        private void BindProgressBarService()
+        {
+            Container.Bind<IProgressBarService>()
+                .To<ProgressBarService>()
+                .AsSingle();
+        }
+
+        private void BindPersistentProgressService()
+        {
+            Container.Bind<IPersistentProgressService>()
+                .To<PersistentProgressService>()
+                .AsSingle();
+        }
+
+        private void BindSaveLoadService()
+        {
+            Container.Bind<ISaveLoadService>()
+                .To<SaveLoadService>()
                 .AsSingle();
         }
     }

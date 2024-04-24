@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
+using HolyWater.MykytaTask.Infrastructure.Services.ProgressBar;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +9,13 @@ namespace HolyWater.MykytaTask.Infrastructure.SceneLoader
 {
     public class SceneLoaderService : ISceneLoaderService
     {
+        private readonly IProgressBarService progressBarService;
+
+        public SceneLoaderService(IProgressBarService progressBarService)
+        {
+            this.progressBarService = progressBarService;
+        }
+        
         public bool IsSceneLoaded(string sceneName) => 
             SceneManager.GetSceneByName(sceneName).isLoaded;
 
@@ -17,16 +26,15 @@ namespace HolyWater.MykytaTask.Infrastructure.SceneLoader
             onSceneLoad?.Invoke();
         }
 
-        public async UniTask LoadSceneWithProgress(string sceneName, object fillAmount, Action onSceneLoad = null)
+        public async UniTask LoadSceneWithProgress(string sceneName, Action onSceneLoad = null)
         {
             AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
 
-            // Continuously update the fill amount of the radial image based on the loading progress
-            while (!operation.isDone)
+            while (operation != null && !operation.isDone)
             {
-                fillAmount = Mathf.Clamp01(operation.progress / 0.9f); // Clamp progress value between 0 and 1
-
-                // Wait for the next frame to avoid blocking the main thread
+                var fillAmount = Mathf.Clamp01(operation.progress / 0.9f);
+                progressBarService.ProgressBarImage.fillAmount = fillAmount;
+                
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
             

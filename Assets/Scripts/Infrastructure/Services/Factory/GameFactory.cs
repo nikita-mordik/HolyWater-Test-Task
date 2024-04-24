@@ -8,8 +8,8 @@ namespace HolyWater.MykytaTask.Infrastructure.Services.Factory
     {
         private readonly IAssetProvider assetProvider;
         
-        public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
-        public List<ISavedProgress> ProgressesWriters { get; } = new List<ISavedProgress>();
+        public List<ISavedProgressReader> ProgressReaders { get; } = new();
+        public List<ISavedProgress> ProgressesWriters { get; } = new();
 
         public GameFactory(IAssetProvider assetProvider)
         {
@@ -23,7 +23,13 @@ namespace HolyWater.MykytaTask.Infrastructure.Services.Factory
             RegisterProgressWatchers(gameObject);
             return gameObject;
         }
-        
+
+        public void CleanReaders() => 
+            ProgressReaders.Clear();
+
+        public void CleanWriters() => 
+            ProgressesWriters.Clear();
+
         private void RegisterProgressWatchers(GameObject gameObject)
         {
             foreach (ISavedProgressReader progressReader in gameObject.GetComponentsInChildren<ISavedProgressReader>())
