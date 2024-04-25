@@ -1,12 +1,10 @@
 using System;
 using DG.Tweening;
 using HolyWater.MykytaTask.Data;
-using HolyWater.MykytaTask.Infrastructure.Services.Audio;
 using HolyWater.MykytaTask.Infrastructure.Services.Progress;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace HolyWater.MykytaTask.Weather
 {
@@ -27,14 +25,6 @@ namespace HolyWater.MykytaTask.Weather
         private string id;
         private Coord coord;
         private SessionProgress sessionProgress;
-
-        private IAudioService audioService;
-
-        [Inject]
-        private void Construct(IAudioService audioService)
-        {
-            this.audioService = audioService;
-        }
         
         private void Start()
         {
@@ -77,7 +67,6 @@ namespace HolyWater.MykytaTask.Weather
 
         private void OnClickWeatherCard()
         {
-            audioService.PlayUIClick();
             isClicked = true;
             
             if (IsCardExist())
